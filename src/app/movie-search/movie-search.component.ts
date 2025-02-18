@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-movie-search',
-  imports: [FormsModule,CommonModule,ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './movie-search.component.html',
   styleUrl: './movie-search.component.css',
 })
@@ -51,11 +51,5 @@ export class MovieSearchComponent implements OnInit {
   }
   searchMovie(title: string) {
     this.searchControl.setValue(title);
-  }
-  toggleFavorite(movie: Movie) {
-    this.movieService.toggleFavourite(movie);
-  }
-  isFavorite(imdbID: string): boolean {
-    return this.movieService.isFavourite(imdbID);
   }
 }

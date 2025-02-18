@@ -1,117 +1,144 @@
-<div class="container my-5">
-    <div class="text-center">
-      <h1 class="display-4 fw-bold">Cinematic Cabinet</h1>
-    </div>
-  
-    <!-- Search Bar -->
-    <div class="row justify-content-center my-4">
-      <div class="col-md-8">
-        <div class="input-group">
-          <input
-            [formControl]="searchControl"
-            type="text"
-            class="form-control"
-            placeholder="Search for movies..."
-          />
-          <div class="input-group-append">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm text-primary"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Recent Searches -->
-    <div *ngIf="recentSearches.length > 0" class="row justify-content-center">
-      <div class="col-md-8">
-        <h5 class="text-secondary">Recent Searches:</h5>
-        <div class="d-flex flex-wrap gap-2">
-          <button
-            *ngFor="let search of recentSearches"
-            (click)="searchMovie(search)"
-            class="btn btn-outline-primary btn-sm"
-          >
-            {{ search }}
-          </button>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Error Message -->
-    <div *ngIf="error" class="text-center text-danger my-3">
-      {{ error }}
-    </div>
-  
-    <!-- Movie Details -->
-    <div *ngIf="movie" class="row justify-content-center my-4">
-      <div class="col-md-10 card p-4 shadow">
-        <div class="row g-4">
-          <!-- Movie Poster -->
-          <div class="col-md-4 text-center">
-            <img
-              [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/no-poster.png'"
-              [alt]="movie.Title"
-              class="img-fluid rounded"
+<!-- movie-search.component.html -->
+<div class="movie-app">
+    <!-- Hero Section -->
+
+    <div class="hero-section">
+      <div class="container">
+        <h1 class="app-title">Movie Sphere</h1>
+        <p class="app-subtitle">Discover and collect your favorite movies</p>
+        
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              [formControl]="searchControl"
+              type="text"
+              class="search-input"
+              placeholder="Search for movies..."
             />
-            <button
-              (click)="toggleFavorite(movie)"
-              class="btn btn-light mt-2"
-            >
-              <i [class]="isFavorite(movie.imdbID) ? 'fas fa-heart text-danger' : 'far fa-heart'"></i>
-            </button>
+            <div class="search-loader" *ngIf="loading">
+              <span class="spinner-border spinner-border-sm"></span>
+            </div>
           </div>
-  
-          <!-- Movie Info -->
-          <div class="col-md-8">
-            <h2 class="fw-bold">{{ movie.Title }}</h2>
-            <div class="d-flex align-items-center gap-2 my-2">
-              <span class="badge bg-warning text-dark"><i class="fas fa-star"></i> {{ movie.imdbRating }}</span>
-              <span class="badge bg-secondary">{{ movie.Rated }}</span>
-              <span>{{ movie.Year }}</span>
-              <span>{{ movie.Runtime }}</span>
-            </div>
-  
-            <div class="mb-3">
-              <span
-                *ngFor="let genre of movie.Genre.split(',')"
-                class="badge bg-primary me-1"
-              >
-                {{ genre.trim() }}
-              </span>
-            </div>
-  
-            <h5>Plot</h5>
-            <p class="text-muted">{{ movie.Plot }}</p>
-  
-            <h5>Cast</h5>
-            <p class="text-muted">{{ movie.Actors }}</p>
-  
-            <h5>Director</h5>
-            <p class="text-muted">{{ movie.Director }}</p>
-  
-            <div *ngIf="movie.Awards !== 'N/A'">
-              <h5>Awards</h5>
-              <p class="text-muted">{{ movie.Awards }}</p>
-            </div>
-  
-            <div class="d-flex gap-3 mt-3">
-              <a
-                [href]="'https://www.imdb.com/title/' + movie.imdbID"
-                target="_blank"
-                class="btn btn-primary"
-              >
-                <i class="fas fa-external-link-alt me-1"></i> View on IMDb
-              </a>
+          
+          <!-- Recent Searches -->
+          <div *ngIf="recentSearches.length > 0" class="recent-searches">
+            <span class="recent-label">Recent:</span>
+            <div class="recent-tags">
               <button
-                class="btn btn-secondary"
-                (click)="toggleFavorite(movie)"
+                *ngFor="let search of recentSearches"
+                (click)="searchMovie(search)"
+                class="recent-tag"
               >
-                <i class="fas" [class.fa-heart]="isFavorite(movie.imdbID)" [class.fa-heart-o]="!isFavorite(movie.imdbID)"></i>
-                {{ isFavorite(movie.imdbID) ? 'Remove from Favorites' : 'Add to Favorites' }}
+                {{ search }}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">
+      <div class="container">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ error }}
+      </div>
+    </div>
+  
+    <!-- Movie Details Section -->
+    <div class="content-section" *ngIf="movie">
+      <div class="container">
+        <div class="movie-details">
+          <!-- Poster Column -->
+          <div class="poster-column">
+            <div class="poster-wrapper">
+              <img
+                [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/no-poster.png'"
+                [alt]="movie.Title"
+                class="movie-poster"
+              />
+            </div>
+  
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+              <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span>{{ movie.imdbRating }}/10</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <span>{{ movie.Runtime }}</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-calendar"></i>
+                <span>{{ movie.Year }}</span>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Info Column -->
+          <div class="info-column">
+            <h2 class="movie-title">{{ movie.Title }}</h2>
+            
+            <!-- Genres -->
+            <div class="genre-tags">
+              <span
+                *ngFor="let genre of movie.Genre.split(',')"
+                class="genre-tag"
+              >
+                {{ genre.trim() }}
+              </span>
+            </div>
+  
+            <!-- Plot -->
+            <div class="info-section">
+              <h3>Plot</h3>
+              <p>{{ movie.Plot }}</p>
+            </div>
+  
+            <!-- Cast -->
+            <div class="info-section">
+              <h3>Cast</h3>
+              <p>{{ movie.Actors }}</p>
+            </div>
+  
+            <!-- Director -->
+            <div class="info-section">
+              <h3>Director</h3>
+              <p>{{ movie.Director }}</p>
+            </div>
+  
+            <!-- Awards -->
+            <div class="info-section" *ngIf="movie.Awards !== 'N/A'">
+              <h3>Awards</h3>
+              <p>{{ movie.Awards }}</p>
+            </div>
+  
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <a
+                [href]="'https://www.imdb.com/title/' + movie.imdbID"
+                target="_blank"
+                class="btn-imdb"
+              >
+                <i class="fas fa-external-link-alt"></i>
+                View on IMDb
+              </a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!movie && !loading && !error">
+      <div class="container">
+        <i class="fas fa-film"></i>
+        <h2>Start Your Movie Journey</h2>
+        <p>Search for your favorite movies above</p>
+      </div>
+    </div>
+  </div>

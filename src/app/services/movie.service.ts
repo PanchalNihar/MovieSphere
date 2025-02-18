@@ -38,6 +38,7 @@ export class MovieService {
       map((movie) => {
         if (movie.Response == 'True') {
           this.addToRecentSearches(title);
+          console.log(movie)
         }
         return movie;
       })
@@ -59,22 +60,5 @@ export class MovieService {
   }
   getRecentSearches(): Observable<string[]> {
     return this.recentSearchesSubject.asObservable();
-  }
-  toggleFavourite(movie: Movie) {
-    const favourites = this.favouriteMoviesSubject.value;
-    const index = favourites.findIndex((m) => m.imdbID == movie.imdbID);
-    if (index === -1) {
-      favourites.push(movie);
-    } else {
-      favourites.splice(index, 1);
-    }
-    this.favouriteMoviesSubject.next(favourites);
-    localStorage.setItem('favouriteMovies', JSON.stringify(favourites));
-  }
-  getFavourites(): Observable<Movie[]> {
-    return this.favouriteMoviesSubject.asObservable();
-  }
-  isFavourite(imdbID: string): boolean {
-    return this.favouriteMoviesSubject.value.some((m) => m.imdbID == imdbID);
   }
 }
