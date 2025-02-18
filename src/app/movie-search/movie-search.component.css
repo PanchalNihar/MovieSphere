@@ -1,0 +1,30 @@
+.container {
+    max-width: 900px;
+  }
+  
+  .img-fluid {
+    max-height: 400px;
+    object-fit: cover;
+  }
+  
+  .card {
+    border-radius: 10px;
+  }
+  
+  .badge {
+    font-size: 0.9rem;
+  }
+  
+  .btn {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .btn:hover {
+    opacity: 0.85;
+  }
+  
+  .spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
