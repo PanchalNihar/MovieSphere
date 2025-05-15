@@ -115,7 +115,15 @@
               <h3>Awards</h3>
               <p>{{ movie.Awards }}</p>
             </div>
-  
+          <!-- Rated -->
+            <div class="info-section" *ngIf="movie.Rated !== 'N/A'">
+              <h3>Rated</h3>
+              <p>{{ movie.Rated }}</p>
+            </div>
+            <div class="info-section" *ngIf="movie.BoxOffice !== 'N/A'">
+              <h3>Box office</h3>
+              <p>{{ movie.BoxOffice }}</p>
+            </div>
             <!-- Action Buttons -->
             <div class="action-buttons">
               <a
